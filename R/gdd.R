@@ -64,7 +64,7 @@
 #'       endday = '10-31',
 #'       tceil = 35)
 #'
-#' @importFrom lubridate yday
+#' @importFrom lubridate yday year
 #' @export
 
 gdd <- function(mx, mn, dates, iniday = NULL, endday = NULL, lati = NULL,

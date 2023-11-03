@@ -21,7 +21,8 @@ gdd(
 
 \item{mn}{vector of daily minimum temperature.}
 
-\item{dates}{vector of dates corresponding to the mx and mn vectors.}
+\item{dates}{vector of dates corresponding to the mx and mn vectors, in Date
+format.}
 
 \item{iniday}{first day of the growing season, in text format ("mm-dd").
 If "lati" is defined, this is automatically set (see details).}

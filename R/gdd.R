@@ -8,7 +8,8 @@
 #' 
 #' @param mx vector of daily maximum temperature.
 #' @param mn vector of daily minimum temperature.
-#' @param dates vector of dates corresponding to the mx and mn vectors.
+#' @param dates vector of dates corresponding to the mx and mn vectors, in Date
+#' format.
 #' @param iniday first day of the growing season, in text format ("mm-dd").
 #' If "lati" is defined, this is automatically set (see details).
 #' @param endday last day of the growing season, in text format ("mm-dd").
@@ -60,11 +61,11 @@
 #'  gdd(mx = daily_tmax,
 #'       mn = daily_tmin,
 #'       dates = dates,
-#'       iniday = '04-01',
-#'       endday = '10-31',
+#'       iniday = '10-01',
+#'       endday = '06-30',
 #'       tceil = 35)
 #'
-#' @importFrom lubridate yday year
+#' @importFrom lubridate year
 #' @export
 
 gdd <- function(mx, mn, dates, iniday = NULL, endday = NULL, lati = NULL,
@@ -92,29 +93,30 @@ gdd <- function(mx, mn, dates, iniday = NULL, endday = NULL, lati = NULL,
       }
   }
   
-  # transform to Julian days since start of year
-  iniday <- yday(paste0('1970-', iniday))
-  endday <- yday(paste0('1970-', endday))
-  julians <- yday(dates)
-
+  # determine growing seasons
+  season <- data.frame(
+    ini = which(as.character(dates, format = '%m-%d') == iniday),
+    end = which(as.character(dates, format = '%m-%d') == endday)
+  )
+  if(season$end[1] < season$ini[1]) {
+    season$end <- c(season$end[2:length(season$end)], length(mn))
+    warning('Last growing season did not reach the end day.')
+  }
+  
   # variants
   mx[mx > tceil] <- tceil
   if (variant == 'B') {
     mn[!is.na(mn) & mn < tbase] <- tbase
   }
 
-  # nullify out of season values
-  mx[julians < iniday] <- mn[julians < iniday] <- tbase
-  mx[julians > endday] <- mn[julians > endday] <- tbase
-  
-  # compute average temperature
-  tmp <- (mx + mn) / 2
-  
-  # compute average temp. above base temperature
-  tmp <- sapply(tmp, function(x) max(0, x - tbase))
+  # determine last frost of each growing season
+  gdd <- apply(season, 1, function(x) {
+        t <- x['ini']:x['end']
+        tmp <- (mx[t] + mn[t]) / 2
+        tmp <- sapply(tmp, function(x) max(0, x - tbase))
+        return(sum(tmp))
+      }
+    )
 
-  # aggregate for each growing season - FOR NOW, ONLY BY YEARS
-  gdd <- aggregate(tmp, by=list(year(dates)), FUN=sum)
-
-  return(gdd$x)
+  return(gdd)
 }

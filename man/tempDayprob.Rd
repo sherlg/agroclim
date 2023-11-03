@@ -4,8 +4,15 @@
 \alias{tempDayprob}
 \title{First day in the year where P(tmax>threshold) >= probs}
 \usage{
-tempDayprob(mx, dates, iniday = "01-01", endday = "09-01",
-  type = "doy", thres = 35, prob = 0.1)
+tempDayprob(
+  mx,
+  dates,
+  iniday = "01-01",
+  endday = "09-01",
+  type = "doy",
+  thres = 35,
+  prob = 0.1
+)
 }
 \arguments{
 \item{mx}{vector of daily (usually maximum) temperature series.}

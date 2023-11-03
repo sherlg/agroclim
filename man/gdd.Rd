@@ -4,39 +4,93 @@
 \alias{gdd}
 \title{Growing Degree Days}
 \usage{
-gdd(mx, mn, dates, lati = NULL, iniday, endday)
+gdd(
+  mx,
+  mn,
+  dates,
+  iniday = NULL,
+  endday = NULL,
+  lati = NULL,
+  tbase = 10,
+  tceil = Inf,
+  variant = "A"
+)
 }
 \arguments{
-\item{mx}{vector of daily maximum temperature series.}
+\item{mx}{vector of daily maximum temperature.}
 
-\item{mn}{vector of daily minimum temperature series.}
+\item{mn}{vector of daily minimum temperature.}
 
-\item{dates}{vector of dates corresponding with daily temprature series}
+\item{dates}{vector of dates corresponding to the mx and mn vectors.}
 
-\item{lati}{(optional) numeric value indicating the latitude of location.}
+\item{iniday}{first day of the growing season, in text format ("mm-dd").
+If "lati" is defined, this is automatically set (see details).}
 
-\item{iniday}{initial date in text format ("YYYY-mm-dd"). If "lati" is defined, "iniday" and "endday" are automatically set.}
+\item{endday}{last day of the growing season, in text format ("mm-dd").
+If "lati" is defined, this is automatically set (see details).}
 
-\item{endday}{last date in text format ("YYYY-mm-dd"). If "lati" is defined, "iniday" and "endday" are automatically set.}
+\item{lati}{(optional) numeric value indicating the latitude of location,
+with positive values indicating northern hemisphere and negative southern.}
+
+\item{tbase}{(optional) numeric value indicating the lower temperature
+threshold for the crop to grow. Defaults to 10 ºC.}
+
+\item{tceil}{(optional) numeric value indicating the upper temperature
+threshold for the crop to grow. Defaults to Inf, in which case there is no
+upper threshold.}
+
+\item{variant}{(optional) character value indicating the computation
+variant to use, one of ('A', 'B'). Defaults to 'A'.}
 }
 \value{
-The sum of growing-degree-days is returned as a numeric value.
+The sum of growing degree-days during each growing season, as a
+numeric value.
 }
 \description{
-Growing Degree Day (GDD) or Winkler index. Useful as a zoning tool to differentiate between grape varieties and climate (Winkler et al. 1974).
+Growing Degree-Day (GDD). GDDs are a measure of heat
+accumulation used by agronomists and farmers to predict plant (and animal)
+development rates. Critical development times such as emerging, blooming,
+or maturity, have been succesfully related to GDD for a variety of crops
+and animal species.
 }
 \details{
-Depending on the latitude, the function detects the hemisphere and considers growing season from 1st April to 31st October (northern hemisphere) or from 1st October to 30rd April (southern hemisphere).
+The function computes, for each growing season in the time series,
+the amount of GDD accumulated. GDDs are computed as:
+
+GDD = (Tmx - Tmn) / 2 - tbase,  for (Tmx - Tmn) / 2 > tbase, and zero
+otherwise.
+
+This is the default option when `variant` is set to A. If it set to B, the
+following modification is applied:
+
+Tmn = tbase,  for Tmn < tbase.
+
+Also, if `tceil` is provided then there is no GDD accumulation above that
+threshold, so:
+
+Tmx = tceil,  for Tmx > tbase.
+
+If `lati` is set, the function detects the hemisphere and considers the
+growing season to go from April 1st to October 31st (northern hemisphere),
+or from 1st October to 30rd April (southern hemisphere). This corresponds
+to the normal cicle of a grape crop, and is maintained as a legacy.
 }
 \examples{
 
-  gdd(mx = daily_tmax,
-    mn = daily_tmin,
-    dates = seq.Date(as.Date('1981-01-01'),
-            as.Date('2010-12-31'), by ='day'),
-            lati = 42)
+ dates <- seq.Date(as.Date('1981-01-01'), as.Date('2010-12-31'), by ='day')
+ gdd(mx = daily_tmax,
+      mn = daily_tmin,
+      dates = dates,
+      lati = 42)
+ gdd(mx = daily_tmax,
+      mn = daily_tmin,
+      dates = dates,
+      iniday = '04-01',
+      endday = '10-31',
+      tceil = 35)
 
 }
 \references{
-Winkler AJ, Cook JA, Kliwer WM, Lider LA (1974) General viticulture. University of California Press, Berkeley, CA
+Winkler AJ, Cook JA, Kliwer WM, Lider LA (1974) General
+viticulture. University of California Press, Berkeley, CA.
 }

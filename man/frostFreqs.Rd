@@ -4,8 +4,14 @@
 \alias{frostFreqs}
 \title{Frequency of frosts}
 \usage{
-frostFreqs(mn, dates, thres = 0, out = NULL, iniday = "07-01",
-  endday = "06-30")
+frostFreqs(
+  mn,
+  dates,
+  thres = 0,
+  out = NULL,
+  iniday = "07-01",
+  endday = "06-30"
+)
 }
 \arguments{
 \item{mn}{vector containing the daily minimum temperature series.}

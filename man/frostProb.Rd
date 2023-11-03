@@ -4,8 +4,15 @@
 \alias{frostProb}
 \title{First day in the year where P(tmin<0) <= prob}
 \usage{
-frostProb(mn, dates, iniday = "07-01", endday = "06-30",
-  type = "doy", thres = 0, prob = 0.1)
+frostProb(
+  mn,
+  dates,
+  iniday = "07-01",
+  endday = "06-30",
+  type = "doy",
+  thres = 0,
+  prob = 0.1
+)
 }
 \arguments{
 \item{mn}{vector of daily minimum temperature series.}

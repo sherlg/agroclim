@@ -4,8 +4,16 @@
 \alias{pentadProbs}
 \title{Pentadic probabilities}
 \usage{
-pentadProbs(mx, mn, temp_dates, out = NULL, min_abs = -20,
-  max_abs = 44, plot_years = NULL, show_legend = TRUE)
+pentadProbs(
+  mx,
+  mn,
+  temp_dates,
+  out = NULL,
+  min_abs = -20,
+  max_abs = 44,
+  plot_years = NULL,
+  show_legend = TRUE
+)
 }
 \arguments{
 \item{mx}{vector containing the daily maximum temperature series.}

@@ -4,10 +4,12 @@
 \name{daily_tmin}
 \alias{daily_tmin}
 \title{Climatic dataset}
-\format{numeric vectors with minimumtemperatures in celsius degrees.
+\format{
+numeric vectors with minimumtemperatures in celsius degrees.
 \describe{
   \item{\code{daily_tmin}}{numeric. daily minimum temperatures}
-}}
+}
+}
 \source{
 Daily data source from the STEAD dataset of mainland Spain temperatures.
 }

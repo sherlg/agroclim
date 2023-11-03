@@ -4,8 +4,14 @@
 \alias{lastFrost}
 \title{Mean last frost day}
 \usage{
-lastFrost(mn, dates, iniday = "07-01", endday = "06-30",
-  type = "doy", thres = 0)
+lastFrost(
+  mn,
+  dates,
+  iniday = "07-01",
+  endday = "06-30",
+  type = "doy",
+  thres = 0
+)
 }
 \arguments{
 \item{mn}{vector of daily minimum temperature series.}

@@ -4,9 +4,18 @@
 \alias{calcGrid}
 \title{Calculation of indices over gridded datasets}
 \usage{
-calcGrid(mxnc = NULL, mnnc = NULL, varnametx = NULL,
-  varnametn = NULL, fun, inienddays, dates, ncpu = 2,
-  out = "test.nc", ...)
+calcGrid(
+  mxnc = NULL,
+  mnnc = NULL,
+  varnametx = NULL,
+  varnametn = NULL,
+  fun,
+  inienddays,
+  dates,
+  ncpu = 2,
+  out = "test.nc",
+  ...
+)
 }
 \arguments{
 \item{mxnc}{a path to a NetCDF file(s) with maximum temperature data.}

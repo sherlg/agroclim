@@ -4,8 +4,14 @@
 \alias{firstTemp}
 \title{Mean first day with a temperature over a threshold}
 \usage{
-firstTemp(mx, dates, iniday = "01-01", endday = "09-01",
-  type = "doy", thres = 35)
+firstTemp(
+  mx,
+  dates,
+  iniday = "01-01",
+  endday = "09-01",
+  type = "doy",
+  thres = 35
+)
 }
 \arguments{
 \item{mx}{vector of daily (usually maximum) temperature series.}

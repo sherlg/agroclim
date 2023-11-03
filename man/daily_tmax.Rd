@@ -4,10 +4,12 @@
 \name{daily_tmax}
 \alias{daily_tmax}
 \title{Climatic dataset}
-\format{numeric vector with maximum temperatures in celsius degrees.
+\format{
+numeric vector with maximum temperatures in celsius degrees.
 \describe{
   \item{\code{daily_tmax}}{numeric. daily maximum temperatures}
-}}
+}
+}
 \source{
 Daily data source from the STEAD dataset of mainland Spain temperatures.
 }

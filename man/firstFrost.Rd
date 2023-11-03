@@ -2,7 +2,7 @@
 % Please edit documentation in R/firstFrost.R
 \name{firstFrost}
 \alias{firstFrost}
-\title{Mean first frost day}
+\title{First frost day}
 \usage{
 firstFrost(
   mn,
@@ -36,8 +36,8 @@ days (of `type` = 'doy') or a vector of characters representing dates
 (`type` = 'date').
 }
 \description{
-Calculates the first frost day (tmp < 0ºC) of the growing
-season.
+Calculates the first frost day (tmp < 0ºC) of each growing
+season. Other thresholds can be used.
 }
 \details{
 The function is able to span over consecutive years. If

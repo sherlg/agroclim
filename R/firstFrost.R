@@ -1,6 +1,6 @@
-#' Mean first frost day
+#' First frost day
 #'
-#' @description Calculates the first frost day (tmp < 0ºC) of the growing
+#' @description Calculates the first frost day (tmp < 0ºC) of each growing
 #' season. Other thresholds can be used.
 #' 
 #' @param mn vector of daily minimum temperature.

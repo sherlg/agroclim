@@ -2,7 +2,7 @@
 % Please edit documentation in R/lastFrost.R
 \name{lastFrost}
 \alias{lastFrost}
-\title{Mean last frost day}
+\title{Last frost day}
 \usage{
 lastFrost(
   mn,
@@ -14,37 +14,43 @@ lastFrost(
 )
 }
 \arguments{
-\item{mn}{vector of daily minimum temperature series.}
+\item{mn}{vector of daily minimum temperature.}
 
-\item{dates}{vector of dates corresponding with daily temprature series}
+\item{dates}{vector of dates corresponding to the mn vector, in Date format.}
 
-\item{iniday}{first day of the year ("dd-mm-YYYY") when frost occurrence will be considered.}
+\item{iniday}{first day of the growing season, in text format ("mm-dd").
+Defaults to `07-01`.}
 
-\item{endday}{last day of the year ("dd-mm-YYYY") when frost occurrence will be considered.}
+\item{endday}{last day of the growing season, in text format ("mm-dd").
+Defaults to `06-30`.}
 
-\item{type}{type of output. It can be "doy" for day of the year (julian day) or "date" for data format ("dd-mm").}
+\item{type}{character vector specifying the type of output desired. It can
+be `doy` for day of the year (julian day), or `date` for character date 
+format (`mm-dd`). Defaults to `doy`.}
 
-\item{thres}{temperature threshold considered to trigger frost occurrence (0 by default).}
+\item{thres}{temperature threshold to trigger frost (defaults to 0ºC).}
 }
 \value{
-A numeric vector with annual values is returned.
-
-depending on argument type, the output will be a numeric vector of julian days (type = "doy") or a vector of characters with dates (type = "date").
+Depending on `type`, the output will be a numeric vector of julian
+days (of `type` = 'doy') or a vector of characters representing dates
+(`type` = 'date').
 }
 \description{
-Calculates the last frost day within a predefined period.
+Calculates the last frost day (tmp < 0ºC) of each growing
+season. Other thresholds can be used.
 }
 \details{
-The function is able to span over years. If the argument "enddate" is a date earlier than "inidate", the considered period will cover from "inidate" to the end of the year and from the beginning of the next year to "enddate".
+The function is able to span over consecutive years. If
+`enddate` is an earlier day than `inidate`, then the considered period will
+leap over two years.
 }
 \examples{
 
-
 lastFrost(mn = daily_tmin,
-  dates = seq.Date(as.Date('1981-01-01'),
+            dates = seq.Date(as.Date('1981-01-01'),
                              as.Date('2010-12-31'), by ='day'),
-  iniday = '07-01',
-  endday = '06-30',
-  type = 'date')
+            iniday = '07-01',
+            endday = '06-30',
+            type = 'doy')
 
 }

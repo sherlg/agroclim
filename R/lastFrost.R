@@ -51,7 +51,7 @@ lastFrost <- function(mn, dates, iniday = '07-01', endday = '06-30', type = 'doy
     w <- match(TRUE, rev(mn[t] < thres))
     return(rev(dates[t])[w])
   })
-  lf <- as.Date(lf, origin='1970-01-01')
+  lf <- as.Date(lf, origin='1969-12-31')
   
   # format and return
   if (type == 'date') {

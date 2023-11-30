@@ -52,7 +52,7 @@ firstFrost <- function(mn, dates, iniday = '07-01', endday = '06-30', type = 'do
     w <- match(TRUE, mn[t] < thres)
     return(dates[t][w])
   })
-  ff <- as.Date(ff, origin='1970-01-01')
+  ff <- as.Date(ff, origin='1969-12-31')
   
   # format and return
   if (type == 'date') {

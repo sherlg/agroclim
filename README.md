@@ -1,5 +1,8 @@
-```markdown
 # agroclim
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub issues](https://img.shields.io/github/issues/sbegueria/agroclim.svg)](https://github.com/sbegueria/agroclim/issues)
+[![GitHub stars](https://img.shields.io/github/stars/sbegueria/agroclim.svg)](https://github.com/sbegueria/agroclim/stargazers)
 
 **Climatic Indices for Agriculture**
 

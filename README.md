@@ -6,7 +6,10 @@
 
 **Climatic Indices for Agriculture**
 
-**agroclim** is an R package for computing a wide range of agroclimatic indices from daily climate data. These indices are useful for applications in agronomy, phenology, and climate impact research.
+**agroclim** is an R package for computing a wide range of agroclimatic indices from daily climate data.
+These indices are useful for applications in agronomy, phenology, and climate impact research.
+
+Inspired by the need to support agroclimatic research with flexible and reproducible tools.
 
 ## Installation
 
@@ -68,7 +71,3 @@ This package is licensed under the [MIT License](LICENSE).
 ## Acknowledgments
 
 Developed by Roberto Serrano-Notivoli and Santiago Beguería, and maintained by S. Beguería and contributors.
-Inspired by the need to support agroclimatic research with flexible and reproducible tools.
-```
-
-You can copy and paste this directly into your `README.md` file. Let me know if you want badges, figures, or example plots added.

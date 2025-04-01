@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="man/figures/logo.png" width="150" />
+</p>
+
 # agroclim
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

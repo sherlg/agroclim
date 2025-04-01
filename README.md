@@ -1,4 +1,4 @@
-# ![agroclim sticker](./man/figures/logo.png)
+# <img src="./man/figures/logo.png" alt="agroclim sticker" style="max-width:150px;" />
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![GitHub issues](https://img.shields.io/github/issues/sbegueria/agroclim.svg)](https://github.com/sbegueria/agroclim/issues)

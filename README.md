@@ -1,5 +1,3 @@
-Here’s a complete, ready-to-use `README.md` for your GitHub project, including a table listing the available agroclimatic indices:
-
 ```markdown
 # agroclim
 

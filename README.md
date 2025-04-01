@@ -1,8 +1,7 @@
-<p align="center">
+# <p align="center">
   <img src="man/figures/logo.png" width="150" />
 </p>
-
-# agroclim
+ agroclim
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub issues](https://img.shields.io/github/issues/sbegueria/agroclim.svg)](https://github.com/sbegueria/agroclim/issues)

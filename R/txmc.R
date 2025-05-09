@@ -16,6 +16,15 @@
 #' 
 
 txmc <- function(mn, mx, dates, type = 'temp', ...){
+  # Check if mn, mx, and dates are of the same length
+  if (length(mn) != length(mx) || length(mn) != length(dates)) {
+    stop("The lengths of 'mn', 'mx', and 'dates' must be the same.")
+  }
+  
+  # Check if dates are in proper Date format
+  if (!all(sapply(dates, function(x) grepl("^\\d{4}-\\d{2}-\\d{2}$", x)))) {
+    stop("All elements in 'dates' must be in 'YYYY-MM-DD' format.")
+  }
   # Return NA if all values in mn or mx are missing
   if (all(is.na(mn)) || all(is.na(mx))) {
     return(NA)

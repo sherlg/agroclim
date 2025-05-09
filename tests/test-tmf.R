@@ -16,8 +16,8 @@ test_that("Test for coldest month calculation", {
   # Run the 'tmf()' function for 'temp' type (mean temperature of the coldest month)
   result_temp <- tmf(mn, mx, dates, type = "temp")
   
-  # Expected result for the coldest month (February)
-  expected_result_temp <- 16  # Average temperature for February (coldest month)
+  # Expected result for the coldest month
+  expected_result_temp <- 16
   
   # Check if the result matches the expected result for temperature
   # The calculated result is rounded to the nearest whole number to avoid issues 
@@ -28,8 +28,8 @@ test_that("Test for coldest month calculation", {
   # Run the 'tmf()' function for 'month' type (number of the coldest month)
   result_month <- tmf(mn, mx, dates, type = "month")
   
-  # Expected result for the coldest month (February)
-  expected_result_month <- 2  # February is the coldest month
+  # Expected result for the coldest month
+  expected_result_month <- 2
   
   # Check if the result matches the expected result for the coldest month
   expect_equal(result_month, expected_result_month)

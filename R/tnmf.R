@@ -53,7 +53,7 @@ tnmf <- function(mn, mx, dates, type = 'temp', ...){
     if(type == 'temp') {
       z <- mean(coldest_month_mn, ...)
     } else if(type == 'month') {
-      z <- coldest_month
+      z <- as.numeric(coldest_month)
     } else {
       stop("Invalid 'type' argument. Use 'temp' or 'month'.")
     }

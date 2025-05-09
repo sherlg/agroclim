@@ -52,7 +52,7 @@ txmc <- function(mn, mx, dates, type = 'temp', ...){
     if(type == 'temp') {
       z <- mean(warmest_month_mx, ...)
     } else if(type == 'month') {
-      z <- warmest_month
+      z <- as.numeric(warmest_month)
     } else {
       stop("Invalid 'type' argument. Use 'temp' or 'month'.")
     }

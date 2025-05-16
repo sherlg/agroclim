@@ -84,16 +84,16 @@ fdd <- function(mx, mn, dates, iniday = NULL, endday = NULL, lati = NULL, tbase 
     t <- x['ini']:x['end']
 
     tmp <- sapply(1:length(t), function(i) {
-      Tmax <- mx[t[i]]
-      Tmin <- mn[t[i]]
+      tmax <- mx[t[i]]
+      tmin <- mn[t[i]]
 
-      if (Tmax <= tbase) {
+      if (tmax <= tbase) {
         return(24)
-      } else if (Tmin >= tbase) {
+      } else if (tmin >= tbase) {
         return(0)
       } else {
-        ch <- ((7.2 - Tmin) / (Tmax - Tmin)) * 24
-        return(ch)
+        chours <- ((7.2 - tmin) / (tmax - tmin)) * 24
+        return(chours)
       }
     })
 

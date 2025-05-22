@@ -9,7 +9,7 @@
 #' @param period A character string indicating the type of period to calculate. It can be `"all"` for all frost periods where the temperature is below the threshold, `"first"` for the first frost period, or `"longest"` for the first longest frost period. `"all"` by default.
 #' @param type type of output. It can be `"number"` for the length of the period or `"date"` for data format (`"dd-mm"`). `"number"` by default.
 #' @return Depending on the argument 'type', the output will be:
-#' - A numeric vector with the length of each period (if `type == "number"`)
+#' - A list of numeric values with the length of each period (if `type == "number"`)
 #' - A list with two dates (start and end) for the period in "mm-dd" format (if `type == "date"`).
 #' 
 #' @import zoo
@@ -18,7 +18,6 @@
 #' 
 
 hs <- function(mn, mx, dates, thres = 0, min_duration = 3, period = "all", type = "number") {
-  
   # Check if input lengths are the same
   if (length(mn) != length(mx) || length(mn) != length(dates)) {
     stop("mn, mx, and dates must have the same length.")
@@ -76,47 +75,47 @@ hs <- function(mn, mx, dates, thres = 0, min_duration = 3, period = "all", type 
   # Add the final frost period
   frost_periods_list <- c(frost_periods_list, list(c(period_start, unique_frost_dates[length(unique_frost_dates)])))
   
-  # Format the periods as strings and remove duplicates within each period
-  consecutive_periods <- lapply(frost_periods_list, function(x) format(unique(x), "%m-%d"))
-  
   # Filter the periods that have a length greater than or equal to min_duration
-  consecutive_periods_filtered <- consecutive_periods[sapply(consecutive_periods, length) >= min_duration]
+  frost_periods_list_filtered <- frost_periods_list[
+    sapply(frost_periods_list, function(d) length(d) > 1 && as.numeric(d[2] - d[1]) + 1 >= min_duration)
+  ]
   
   # Select the appropriate frost period based on the 'period' parameter
-  if (length(consecutive_periods_filtered) == 0) {
+  if (length(frost_periods_list_filtered) == 0) {
     return(NA) # No common frost periods across all years
   } else if (period == "first") {
-    result_period <- consecutive_periods_filtered[[1]]
-    result_period <- list(result_period)
+    value_first <- frost_periods_list_filtered[[1]]
+    result_period <- list(value_first)
   } else if (period == "longest") {
-    period_lengths <- sapply(consecutive_periods_filtered, length) 
-    longest_period_index <- which.max(period_lengths) 
-    result_period <- consecutive_periods_filtered[[longest_period_index]] 
-    result_period <- list(result_period)
+    period_lengths <- lapply(frost_periods_list_filtered, function(period) {
+      as.Date(period[2]) - as.Date(period[1]) + 1
+    })
+    indice_longest <- which.max(period_lengths)
+    value_longest <- frost_periods_list_filtered[[indice_longest]]
+    result_period <- list(value_longest)
   } else if (period == "all") {
-    result_period <- consecutive_periods_filtered
+    result_period <- frost_periods_list_filtered
   } else {
     stop("Invalid period type specified.")
   }
   
   # Return results based on the requested output type
   if (type == "number") {
-    frost_period_numbers <- sapply(result_period, length)
+    frost_period_numbers <- lapply(result_period, function(period) {
+      as.numeric(as.Date(period[2]) - as.Date(period[1]) + 1)
+    })
     return(frost_period_numbers)
-#    return(as.list(frost_period_numbers))
   } else if (type == "date") {
-    # Return the start and end dates of the frost periods
     frost_period_dates <- list()
     
     for (period in result_period) {
       if (length(period) > 1) {
-        # If the group has more than one date, return the first and last date
         frost_period_dates <- append(frost_period_dates, list(c(period[1], period[length(period)])))
       } else {
         frost_period_dates <- append(frost_period_dates, period)
       }
     }
-    
+    frost_period_dates <- lapply(frost_period_dates, function(x) format(unique(x), "%m-%d"))
     return(frost_period_dates)
   } else {
     stop("Invalid output type specified.")

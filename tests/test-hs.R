@@ -15,7 +15,7 @@ test_that("Test for all frost periods calculation", {
   result_hs <- hs(mn, mx, dates, thres = 0, min_duration = 2, period = "all", type = "number")
   
   # Expected result
-  expected_result_hs <- c(2,2,2,2,2,2,2,2,2,2)
+  expected_result_hs <- list(2,2,2,2,2,2,2,2,2,2)
   
   # Check if the result matches the expected result for the length of the frost periods
   expect_equal(result_hs, expected_result_hs)

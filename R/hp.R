@@ -30,7 +30,7 @@ hp <- function(mn, dates, thres_mn = 0, thres_abs_mn = 0, min_duration = 3, peri
     stop("The minimum duration must be at least 1.")
   }
   
-  # Create a zoo object with average temperatures and dates
+  # Create a zoo object with minimum temperatures and dates
   temperature_data <- zoo(mn, dates)
   
   # Extract month and day from the date index

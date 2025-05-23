@@ -1,6 +1,6 @@
 #' Length of the Frost Period (Guaranteed Frost Days)
 #' 
-#' @description Calculates the length of the periods where the daily mean temperature has been below 0°C over years.
+#' @description Calculates the length of the periods where the daily mean temperature has been the critical frost temperature over years.
 #' @param mn A numeric vector of daily minimum temperature series.
 #' @param mx A numeric vector of daily maximum temperature series.
 #' @param dates A vector of dates corresponding with daily temperature series.

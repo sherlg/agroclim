@@ -4,6 +4,8 @@
 #' under a threshold and the daily minimum temperature is under a threshold over the years.
 #' @param mn A numeric vector of daily minimum temperature series.
 #' @param dates A vector of dates corresponding with daily temperature series.
+#' @param iniday first day of the growing season, in text format ("mm-dd"). Defaults to `07-01`.
+#' @param endday last day of the growing season, in text format ("mm-dd"). Defaults to `06-30`.
 #' @param thres_mn A numeric value indicating the daily minimum temperature threshold considered to trigger frost occurrence (0 by default).
 #' @param thres_abs_mn A numeric value indicating the absolute minimum temperature threshold considered to trigger frost occurrence (0 by default).
 #' @param min_duration A numeric value indicating the minimum day length of the frost period to be considered. Periods shorter than this will be excluded. Default to 3.
@@ -14,12 +16,12 @@
 #' - A list with two dates (start and end) for the period in "mm-dd" format (if `type == "date"`).
 #' 
 #' @import zoo
-#' 
+#' @import lubridate
 #' 
 #' 
 
 
-hp <- function(mn, dates, thres_mn = 0, thres_abs_mn = 0, min_duration = 3, period = "all", type = "number") {
+hp <- function(mn, dates, iniday = '07-01', endday = '06-30', thres_mn = 0, thres_abs_mn = 0, min_duration = 3, period = "all", type = "number") {
   # Check if mn, and dates are of the same length
   if (length(mn) != length(dates)) {
     stop("mn and dates must have the same length.")
@@ -30,8 +32,25 @@ hp <- function(mn, dates, thres_mn = 0, thres_abs_mn = 0, min_duration = 3, peri
     stop("The minimum duration must be at least 1.")
   }
   
+  # Check if a date is within the growing season
+  within_season <- function(date) {
+    md <- format(date, "%m-%d")
+    if (iniday <= endday) {
+      return(md >= iniday & md <= endday)
+    } else {
+      return(md >= iniday | md <= endday)
+    }
+  }
+  
+  # Create a logical vector with the indices of dates included inside the growing season
+  indices_season <- sapply(dates, within_season)
+  
+  # Create a subset of minimum temperatures and dates for the growing season
+  mn_season <- mn[indices_season]
+  dates_season <- dates[indices_season]
+  
   # Create a zoo object with minimum temperatures and dates
-  temperature_data <- zoo(mn, dates)
+  temperature_data <- zoo(mn_season, dates_season)
   
   # Extract month and day from the date index
   days <- format(index(temperature_data), "%m-%d")
@@ -53,11 +72,22 @@ hp <- function(mn, dates, thres_mn = 0, thres_abs_mn = 0, min_duration = 3, peri
     return(NA)
   }
   
-  # Transform into Date format
-  common_frost_days <- as.Date(common_frost_days, format="%m-%d")
+  # Transform into Date format (keeping season order)
+  common_frost_days_asdate <- as.Date(common_frost_days, format="%m-%d")
+  iniday_date <- as.Date(iniday, format="%m-%d")
+  common_frost_days_season <- lapply(common_frost_days_asdate, function(date) {
+    if (is.na(date)) {
+      return(NA)
+    } else if (date < iniday_date) {
+      return(date + years(1))
+    } else {
+      return(date)
+    }
+  })
+  common_frost_days_season <- sort(as.Date(unlist(common_frost_days_season)))
   
   # Remove duplicate frost days and keep unique ones and NAs values
-  unique_frost_dates <- unique(common_frost_days)
+  unique_frost_dates <- unique(common_frost_days_season)
   unique_frost_dates <- na.omit(unique_frost_dates)
   
   # Calculate the differences between consecutive dates

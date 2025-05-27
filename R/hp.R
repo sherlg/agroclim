@@ -42,10 +42,10 @@ hp <- function(mn, dates, thres_mn = 0, thres_abs_mn = 0, min_duration = 3, peri
     return(mn_temp < thres_abs_mn) 
   })
   
-  # Identify days with temperatures under the threshold across all years
-  frost_days <- tapply(coredata(temperature_data), days, function(x) all(x < thres_mn))
+  # Identify days with temperatures above the threshold across all years
+  frost_days <- tapply(coredata(temperature_data), days, function(x) all(x > thres_mn))
   
-  # Filter for days where all years have temperatures under the threshold and the absolute minimum temperature for that day is below the threshold
+  # Filter for days where all years have temperatures above the threshold and the absolute minimum temperature for that day is below the threshold
   common_frost_days <- names(frost_days[frost_days == TRUE & daily_mn_abs[names(frost_days)] == TRUE])
   
   # Check if any common frost days exist

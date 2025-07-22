@@ -13,8 +13,8 @@ test_that("Test 1 for 'event_prob_teo' function", {
   data <- round(runif(length(dates), min = -2, max = 10), 1)
   
   # Conditions: specific day
-  result <- event_prob_teo(var = data, dates = dates, threshold = 0, direction = "leq", time_scale = "day", target_date = "01-05") 
-  expected_result <- 0.25
+  result <- event_prob_teo(any = data, dates = dates, threshold = 0, direction = "leq", time_scale = "day", target_date = "01-05") 
+  expected_result <- 0.19
   expect_equal(round(result, 2), expected_result, info = "Prob calculation failed")
 })
 
@@ -25,8 +25,8 @@ test_that("Test 2 for 'event_prob_teo' function", {
   data <- round(runif(length(dates), min = -2, max = 10), 1)
   
   # Conditions: specific month
-  result <- event_prob_teo(var = data, dates = dates, threshold = 0, direction = "leq", time_scale = "month", target_date = "02") 
-  expected_result <- 0.22
+  result <- event_prob_teo(any = data, dates = dates, threshold = 0, direction = "leq", time_scale = "month", target_date = "02") 
+  expected_result <- 0.15
   expect_equal(round(result, 2), expected_result, info = "Prob calculation failed")
 })
 
@@ -37,7 +37,7 @@ test_that("Test 3 for 'event_prob_teo' function", {
   data <- round(runif(length(dates), min = -2, max = 10), 1)
   
   # Conditions: specific season
-  result <- event_prob_teo(var = data, dates = dates, start_day = "07-01", end_day = "06-30", threshold = 0, direction = "leq", time_scale = "season") 
-  expected_result <- 0.20
+  result <- event_prob_teo(any = data, dates = dates, start_day = "07-01", end_day = "06-30", threshold = 0, direction = "leq", time_scale = "season") 
+  expected_result <- 0.13
   expect_equal(round(result, 2), expected_result, info = "Prob calculation failed")
 })

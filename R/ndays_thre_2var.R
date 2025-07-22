@@ -1,8 +1,8 @@
 #' Count number of days meeting threshold conditions on two variables within seasons for at least a defined number of consecutive days.
 #' 
-#' @param var1 Numeric vector representing the first variable to be analyzed (e.g., temperature).
-#' @param var2 Numeric vector representing the second variable to be analyzed (e.g., precipitation).
-#' @param dates Vector of class `Date` corresponding to both `var1` and `var2`.
+#' @param any Numeric vector representing the first variable to be analyzed (e.g., temperature).
+#' @param any2 Numeric vector representing the second variable to be analyzed (e.g., precipitation).
+#' @param dates Vector of class `Date` corresponding to both `any` and `any2`.
 #' @param start_day Character string in "mm-dd" format indicating the start of the season. Optional; default is "07-01".
 #' @param end_day Character string in "mm-dd" format indicating the end of the season. Optional; default is "06-30".
 #' @param threshold1 Numeric value specifying the threshold for the first variable's condition. Optional; default is 0.
@@ -19,25 +19,25 @@
 #'
 #' @examples
 #' # Count days with minimum temperature ≥ 5 and maximum temperature ≤ 18 between July 1 and June 30 seasons
-#' ndays_thre_2vars(var1 = mn, var2 = mx, dates = date_seq,
+#' ndays_thre_2vars(any = mn, any2 = mx, dates = date_seq,
 #'                 threshold1 = 5, direction1 = "geq",
 #'                 threshold2 = 18, direction2 = "leq")
 #' 
 #' @import zoo
 #' @export
 
-ndays_thre_2var <- function(var1, var2, dates, start_day = "07-01", end_day = "06-30",
+ndays_thre_2var <- function(any, any2, dates, start_day = "07-01", end_day = "06-30",
                             threshold1 = 0, direction1 = "geq",
                             threshold2 = 0, direction2 = "geq",
                             min_duration = 1) {
   # Validate inputs
-  if(length(var1) != length(dates) || length(var2) != length(dates)) stop("var1, var2, and dates must have the same length.")
+  if(length(any) != length(dates) || length(any2) != length(dates)) stop("any, any2, and dates must have the same length.")
   if(!direction1 %in% c("geq", "leq")) stop('direction1 must be "geq" or "leq".')
   if(!direction2 %in% c("geq", "leq")) stop('direction2 must be "geq" or "leq".')
   
   # Create zoo objects
-  var1_data <- zoo(var1, order.by = dates)
-  var2_data <- zoo(var2, order.by = dates)
+  var1_data <- zoo(any, order.by = dates)
+  var2_data <- zoo(any2, order.by = dates)
   
   # Find indices for start and end of seasons
   start_idx <- which(format(time(var1_data), "%m-%d") == start_day)

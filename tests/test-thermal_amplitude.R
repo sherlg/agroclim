@@ -7,14 +7,14 @@ source("R/thermal_amplitude.R")
 #'
 
 #' @export
-test_that("Test for 'thermal_amplitude' function using default season dates", {
+test_that("Test for 'thermal_amplitude' function without season dates", {
   # Test data
   set.seed(123) 
   dates <- seq(as.Date("2018-10-01"), as.Date("2022-03-31"), by = "day")
   data1 <- round(runif(length(dates), min = -2, max = 10), 1)
   data2 <- round(runif(length(dates), min = 4, max = 37), 1)
 
-  # Default parameters start_day = "01-01", end_day = "12-31"
+  # Default parameters start_day = NULL, end_day = NULL
   # Test: day
   data1_subset<-data1[1:10]
   data2_subset<-data2[1:10]
@@ -30,7 +30,7 @@ test_that("Test for 'thermal_amplitude' function using default season dates", {
   
   # Test: season
   result <- thermal_amplitude(data2, data1, dates = dates, time_scale = "season")
-  expected_result <- c(16.94, 16.61, 16.40, 17.52)
+  expected_result <- c(16.61)
   expect_equal(round(result, 2), expected_result, tolerance = 0.1, info = "Seasonal thermal amplitude failed")
 })
 
@@ -44,4 +44,24 @@ test_that("Test for 'thermal_amplitude' function especifying period", {
   result <- thermal_amplitude(data2, data1, dates = dates, start_day = "07-01", end_day = "06-30", time_scale = "season")
   expected_result <- c(17.02, 16.18, 16.70)
   expect_equal(round(result, 2), expected_result, tolerance = 0.1, info = "Seasonal thermal amplitude failed")
+  
+  # Test: season
+  result <- thermal_amplitude(data2, data1, dates = dates, start_day = "01-01", end_day = "12-31", time_scale = "season")
+  expected_result <- c(16.94, 16.61, 16.40, 17.52)
+  expect_equal(round(result, 2), expected_result, tolerance = 0.1, info = "Seasonal thermal amplitude failed")
+  
+  # Test: monthly TA 09-01:10-31
+  result <- thermal_amplitude(data2, data1, dates = dates, start_day = "09-01", end_day = "10-31", time_scale = "month")
+  expected_result <- c(17.06, 16.63, 12.57, 18.03, 15.23, 17.73)
+  expect_equal(round(result, 2), expected_result, tolerance = 0.1, info = "Monthly thermal amplitude failed")
+  
+  # Test: monthly TA 03-01:04-30
+  result <- thermal_amplitude(data2, data1, dates = dates, start_day = "03-01", end_day = "04-30", time_scale = "month")
+  expected_result <- c(17.51, 19.59, 18.05, 16.84, 17.06, 14.52, 20.12)
+  expect_equal(round(result, 2), expected_result, tolerance = 0.1, info = "Monthly thermal amplitude failed")
+  
+  # Test: daily TA 10-03:10-05
+  result <- thermal_amplitude(data2, data1, dates = dates, start_day = "10-03", end_day = "10-05", time_scale = "day")
+  expected_result <- c(7.8, 23.5, 14.7, 36.8, 27.0, 29.1, 3.7, 23.7, 22.3, 33.0, 19.0, -3.1)
+  expect_equal(round(result, 2), expected_result, tolerance = 0.1, info = "Daily thermal amplitude failed")
 })

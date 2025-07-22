@@ -14,7 +14,7 @@ test_that("Test for 'ndays_thre_1var' function using default parameters", {
   data <- round(runif(length(dates), min = -2, max = 10), 1)
 
   # Test
-  result <- ndays_thre_1var(var = data, dates = dates) 
+  result <- ndays_thre_1var(any = data, dates = dates) 
   expected_result <- c(301, 292, 226)
   expect_equal(result, expected_result, info = "Ndays calculation failed")
 })
@@ -26,7 +26,7 @@ test_that("Test for 'ndays_thre_1var' function especifying period", {
   data <- round(runif(length(dates), min = -2, max = 10), 1)
   
   # Test
-  result <- ndays_thre_1var(var = data, dates = dates, start_day = "01-01", end_day = "04-30") 
+  result <- ndays_thre_1var(any = data, dates = dates, start_day = "01-01", end_day = "04-30") 
   expected_result <- c(109, 101, 95,  69)
   expect_equal(result, expected_result, info = "Ndays calculation failed")
 })
@@ -38,7 +38,7 @@ test_that("Test for 'ndays_thre_1var' function especifying value ranges", {
   data <- round(runif(length(dates), min = -2, max = 10), 1)
   
   # Test
-  result <- ndays_thre_1var(var = data, dates = dates, start_day = "01-01", end_day = "04-30", 
+  result <- ndays_thre_1var(any = data, dates = dates, start_day = "01-01", end_day = "04-30", 
                                  min_threshold = 1, min_direction = "geq",
                                  max_threshold = 5, max_direction = "leq") 
   expected_result <- c(51, 44, 36, 29)
@@ -53,7 +53,7 @@ test_that("Test for 'ndays_thre_1var' function especifying min duration period",
   data <- round(runif(length(dates), min = -2, max = 10), 1)
   
   # Test
-  result <- ndays_thre_1var(var = data, dates = dates, start_day = "01-01", end_day = "04-30", 
+  result <- ndays_thre_1var(any = data, dates = dates, start_day = "01-01", end_day = "04-30", 
                             min_threshold = 1, min_direction = "geq",
                             max_threshold = 5, max_direction = "leq",
                             min_duration = 3) 

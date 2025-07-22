@@ -1,7 +1,7 @@
 #' Calculate the first or last day in the year when the probability of a climatic event meets a threshold
 #'
-#' @param var Numeric vector representing the variable to be analyzed (e.g., temperature, precipitation).
-#' @param dates Vector of class `Date` corresponding to `var`.
+#' @param any Numeric vector representing the variable to be analyzed (e.g., temperature, precipitation).
+#' @param dates Vector of class `Date` corresponding to `any`.
 #' @param start_day Character string in "mm-dd" format indicating the start of the season. Optional; default is "07-01".
 #' @param end_day Character string in "mm-dd" format indicating the end of the season. Optional; default is "06-30".
 #' @param threshold Numeric value specifying the threshold for condition evaluation. Optional; default is 0.
@@ -11,17 +11,21 @@
 #'
 #' @return Numeric vector with the Julian day (day of year) corresponding to the event probability threshold.
 #'
+#' @details
+#' The first day when the probability of experiencing a frost event is equal or above percentile 90 in a seasonal year
+#' event_prob_day(any = temp_min, dates = dates, start_day = "07-01", end_day = "06-30", threshold = 0, direction = "leq", event = "first", prob = 0.90)
+#'
 #' @import zoo
 #' @export
 #' 
-event_prob_day <- function(var, dates, start_day = "07-01", end_day = "06-30", threshold = 0, direction = "geq", event = "first", prob = 0.10) {
+event_prob_day <- function(any, dates, start_day = "07-01", end_day = "06-30", threshold = 0, direction = "geq", event = "first", prob = 0.10) {
   # Validate inputs
-  if (length(var) != length(dates)) stop("Length of 'var' and 'dates' must be equal.")
+  if (length(any) != length(dates)) stop("Length of 'any' and 'dates' must be equal.")
   if (!direction %in% c("geq", "leq")) stop("Invalid 'direction' argument. Must be either 'geq' or 'leq'.")
   if (!event %in% c("first", "last")) stop("Invalid 'event' argument. Must be either 'first' or 'last'.")
   
   # Create zoo object
-  var_data <- zoo(var, order.by = dates)
+  var_data <- zoo(any, order.by = dates)
   
   # Find indices for start and end of seasons
   start_idx <- which(format(time(var_data), "%m-%d") == start_day)

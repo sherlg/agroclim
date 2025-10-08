@@ -42,7 +42,6 @@ test_that("Test for 'stats_var' function especifying period", {
   dates <- seq(as.Date("2018-10-01"), as.Date("2022-03-31"), by = "day")
   data <- round(runif(length(dates), min = -2, max = 10), 1)
   
-  # Default parameters start_day = "01-01", end_day = "04-30"
   # Test: mean
   result_mean <- stats_var(any = data, dates = dates, operator = "mean", start_day = "01-01", end_day = "04-30") 
   expected_result <- c(4.01, 4.03, 4.21, 3.80)
@@ -63,3 +62,33 @@ test_that("Test for 'stats_var' function especifying period", {
   expected_result <- c(9.8,  9.9,  9.9, 10.0)
   expect_equal(result_max, expected_result, tolerance = 0.1, info = "Max calculation failed")
 })
+
+
+test_that("Test for 'stats_var' function especifying threshold", {
+  # Test data
+  set.seed(123) 
+  dates <- seq(as.Date("2018-10-01"), as.Date("2022-03-31"), by = "day")
+  data <- round(runif(length(dates), min = -2, max = 10), 1)
+  
+  # Default parameters start_day = "07-01", end_day = "06-30"
+  # Test: mean
+  result_mean <- stats_var(any = data, dates = dates, operator = "mean", threshold = 4, direction = "geq") 
+  expected_result <- c(7.20, 6.81, 6.77)
+  expect_equal(result_mean, expected_result, tolerance = 0.1, info = "Mean calculation failed")
+  
+  # Test: sum
+  result_sum <- stats_var(any = data, dates = dates, operator = "sum", threshold = 4, direction = "geq")
+  expected_result <- c(1275.1, 1259.0, 920.4)
+  expect_equal(result_sum, expected_result, tolerance = 0.1, info = "Sum calculation failed")
+  
+  # Test: min
+  result_min <- stats_var(any = data, dates = dates, operator = "min", threshold = -1, direction = "leq")
+  expected_result <- c(-2, -2, -2)
+  expect_equal(result_min, expected_result, tolerance = 0.1, info = "Min calculation failed")
+  
+  # Test: max
+  result_max <- stats_var(any = data, dates = dates, operator = "max", threshold = 1, direction = "geq")
+  expected_result <- c(10.0, 9.9, 10.0)
+  expect_equal(result_max, expected_result, tolerance = 0.1, info = "Max calculation failed")
+})
+

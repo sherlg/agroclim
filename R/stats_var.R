@@ -5,6 +5,8 @@
 #' @param start_day Character string in "mm-dd" format indicating the start of the season. Optional; default is "07-01".
 #' @param end_day Character string in "mm-dd" format indicating the end of the season. Optional; default is "06-30".
 #' @param operator Character string indicating the operation to apply per season. Valid options are `"max"`, `"min"`, `"mean"` and `"sum"`. Optional; default is "mean".
+#' @param threshold Numeric value specifying the threshold for condition evaluation. Optional; default is NULL.
+#' @param direction Character string specifying the condition direction; valid options are `"geq"` (greater than or equal to `threshold`) and `"leq"` (less than or equal to `threshold`). Optional; default is `"geq"`.
 #'
 #' @return Numeric vector with the result of the chosen operator per season.
 #'
@@ -15,10 +17,11 @@
 #' 
 #' @examples
 #' stats_var(any = temp_data, dates = date_seq, operator = "mean")
+#' stats_var(any = temp_data, dates = date_seq, operator = "sum", threshold = 7, direction= "leq")
 #'
 #' @import zoo
 
-stats_var <- function(any, dates, start_day = "07-01", end_day = "06-30", operator = "mean") {
+stats_var <- function(any, dates, start_day = "07-01", end_day = "06-30", operator = "mean", threshold = NULL, direction = "geq") {
   # Validations
   if (length(any) != length(dates)) stop("temp and dates must have the same length.")
   if (!operator %in% c("max", "min", "mean", "sum")) {
@@ -54,6 +57,17 @@ stats_var <- function(any, dates, start_day = "07-01", end_day = "06-30", operat
     en <- end_idx[i]
     
     period_data <- var_data[st:en]
+    
+    # Filter using threshold parameter
+    if(!is.null(threshold)) {
+      if(direction == "geq") {
+        days_cond <- period_data >= threshold
+        period_data <- period_data[days_cond]
+      } else if(direction == "leq") {
+        days_cond <- period_data <= threshold
+        period_data <- period_data[days_cond]
+      }
+    }
     
     # Compute statistic based on operator
     results[i] <- switch(operator,

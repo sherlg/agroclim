@@ -92,3 +92,16 @@ test_that("Test for 'stats_var' function especifying threshold", {
   expect_equal(result_max, expected_result, tolerance = 0.1, info = "Max calculation failed")
 })
 
+test_that("Test for 'stats_var' function especifying a complete season without data", {
+  # Test data
+  set.seed(123) 
+  dates <- seq(as.Date("2018-10-01"), as.Date("2022-03-31"), by = "day")
+  data <- round(runif(length(dates), min = -2, max = 10), 1)
+  data[dates >= as.Date("2019-07-01") & dates <= as.Date("2020-06-30")] <- NA
+  
+  # Default parameters start_day = "07-01", end_day = "06-30"
+  # Test: mean
+  result_mean <- stats_var(any = data, dates = dates, operator = "mean") 
+  expected_result <- c(NA, 3.88, 3.84)
+  expect_equal(result_mean, expected_result, tolerance = 0.1, info = "Mean calculation failed")
+})

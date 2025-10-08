@@ -20,6 +20,7 @@
 #' stats_var(any = temp_data, dates = date_seq, operator = "sum", threshold = 7, direction= "leq")
 #'
 #' @import zoo
+#' @export
 
 stats_var <- function(any, dates, start_day = "07-01", end_day = "06-30", operator = "mean", threshold = NULL, direction = "geq") {
   # Validations
@@ -67,6 +68,12 @@ stats_var <- function(any, dates, start_day = "07-01", end_day = "06-30", operat
         days_cond <- period_data <= threshold
         period_data <- period_data[days_cond]
       }
+    }
+    
+    # Handle if all values are NA
+    if (all(is.na(period_data))) {
+      results[i] <- NA
+      next
     }
     
     # Compute statistic based on operator
